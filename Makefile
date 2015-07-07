@@ -1,7 +1,7 @@
 # run 'make' or 'make -j16' or whatever from this directory.
 # but first edit this path
 # DATADIR  := /usr/users/9/brenocon/s/sem/gigaword_5_anno/data
-DATADIR  := gw/data
+DATADIR  := data
 ##DATADIR  := gw/data_without_apw
 INPUTS 	 := $(wildcard $(DATADIR)/*.xml.gz)
 JUSTSENT := $(INPUTS:.xml.gz=.justsent)
@@ -23,7 +23,8 @@ doc_counts.txt: $(DOCID)
 	env LC_ALL=C cat $< | cut -f1-2 > $@
 
 %.justsent: %.jdoc
-	zcat $< | python2.7 jdoc2justsent.py > $@
+	zcat $< | python2.7 annogw2json.py justsent > $@
+	touch $@.done
 
 %.jdoc: %.xml.gz
 	zcat $< | python2.7 annogw2json.py full > $@
